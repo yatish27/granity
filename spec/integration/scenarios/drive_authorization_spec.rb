@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "Google Drive Authorization" do
   before(:all) do
@@ -74,19 +74,19 @@ RSpec.describe "Google Drive Authorization" do
 
   describe "Google Drive scenario" do
     # Define users
-    let(:anne) { { type: 'user', id: 'anne' } }
-    let(:beth) { { type: 'user', id: 'beth' } }
-    let(:charles) { { type: 'user', id: 'charles' } }
-    let(:daniel) { { type: 'user', id: 'daniel' } }
+    let(:anne) { {type: "user", id: "anne"} }
+    let(:beth) { {type: "user", id: "beth"} }
+    let(:charles) { {type: "user", id: "charles"} }
+    let(:daniel) { {type: "user", id: "daniel"} }
 
     # Define groups
-    let(:contoso) { { type: 'group', id: 'contoso' } }
-    let(:fabrikam) { { type: 'group', id: 'fabrikam' } }
+    let(:contoso) { {type: "group", id: "contoso"} }
+    let(:fabrikam) { {type: "group", id: "fabrikam"} }
 
     # Define folders and documents
-    let(:product_folder) { { type: 'folder', id: 'product_2021' } }
-    let(:public_roadmap) { { type: 'document', id: 'public_roadmap' } }
-    let(:roadmap_2021) { { type: 'document', id: 'roadmap_2021' } }
+    let(:product_folder) { {type: "folder", id: "product_2021"} }
+    let(:public_roadmap) { {type: "document", id: "public_roadmap"} }
+    let(:roadmap_2021) { {type: "document", id: "roadmap_2021"} }
 
     before(:each) do
       # Set up the scenario
@@ -95,7 +95,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: contoso[:type],
         object_id: contoso[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: anne[:type],
         subject_id: anne[:id]
       )
@@ -103,7 +103,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: contoso[:type],
         object_id: contoso[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: beth[:type],
         subject_id: beth[:id]
       )
@@ -111,7 +111,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: fabrikam[:type],
         object_id: fabrikam[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: charles[:type],
         subject_id: charles[:id]
       )
@@ -120,7 +120,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: product_folder[:type],
         object_id: product_folder[:id],
-        relation: 'owner',
+        relation: "owner",
         subject_type: anne[:type],
         subject_id: anne[:id]
       )
@@ -128,7 +128,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: product_folder[:type],
         object_id: product_folder[:id],
-        relation: 'viewer_group',
+        relation: "viewer_group",
         subject_type: fabrikam[:type],
         subject_id: fabrikam[:id]
       )
@@ -137,7 +137,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: public_roadmap[:type],
         object_id: public_roadmap[:id],
-        relation: 'parent',
+        relation: "parent",
         subject_type: product_folder[:type],
         subject_id: product_folder[:id]
       )
@@ -145,7 +145,7 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: roadmap_2021[:type],
         object_id: roadmap_2021[:id],
-        relation: 'parent',
+        relation: "parent",
         subject_type: product_folder[:type],
         subject_id: product_folder[:id]
       )
@@ -154,18 +154,18 @@ RSpec.describe "Google Drive Authorization" do
       Granity.create_relation(
         object_type: roadmap_2021[:type],
         object_id: roadmap_2021[:id],
-        relation: 'viewer',
+        relation: "viewer",
         subject_type: beth[:type],
         subject_id: beth[:id]
       )
 
       # Make public roadmap viewable by everyone
       # For simplicity, we'll add each user directly
-      [ anne, beth, charles, daniel ].each do |user|
+      [anne, beth, charles, daniel].each do |user|
         Granity.create_relation(
           object_type: public_roadmap[:type],
           object_id: public_roadmap[:id],
-          relation: 'viewer',
+          relation: "viewer",
           subject_type: user[:type],
           subject_id: user[:id]
         )
@@ -178,7 +178,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: anne[:type],
             subject_id: anne[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: roadmap_2021[:type],
             resource_id: roadmap_2021[:id]
           )
@@ -190,7 +190,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: beth[:type],
             subject_id: beth[:id],
-            permission: 'change_owner',
+            permission: "change_owner",
             resource_type: roadmap_2021[:type],
             resource_id: roadmap_2021[:id]
           )
@@ -202,7 +202,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: charles[:type],
             subject_id: charles[:id],
-            permission: 'view',
+            permission: "view",
             resource_type: roadmap_2021[:type],
             resource_id: roadmap_2021[:id]
           )
@@ -214,7 +214,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: charles[:type],
             subject_id: charles[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: roadmap_2021[:type],
             resource_id: roadmap_2021[:id]
           )
@@ -226,7 +226,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: daniel[:type],
             subject_id: daniel[:id],
-            permission: 'view',
+            permission: "view",
             resource_type: roadmap_2021[:type],
             resource_id: roadmap_2021[:id]
           )
@@ -240,7 +240,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: daniel[:type],
             subject_id: daniel[:id],
-            permission: 'view',
+            permission: "view",
             resource_type: public_roadmap[:type],
             resource_id: public_roadmap[:id]
           )
@@ -252,7 +252,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: anne[:type],
             subject_id: anne[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: public_roadmap[:type],
             resource_id: public_roadmap[:id]
           )
@@ -264,7 +264,7 @@ RSpec.describe "Google Drive Authorization" do
           Granity.check_permission(
             subject_type: charles[:type],
             subject_id: charles[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: public_roadmap[:type],
             resource_id: public_roadmap[:id]
           )

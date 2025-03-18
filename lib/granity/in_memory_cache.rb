@@ -29,7 +29,11 @@ module Granity
     def write(key, value, dependencies: [], ttl: nil)
       @mutex.synchronize do
         # Set expiration time if ttl provided
-        expires_at = ttl ? Time.now + ttl : (@default_ttl ? Time.now + @default_ttl : nil)
+        expires_at = if ttl
+          Time.now + ttl
+        else
+          (@default_ttl ? Time.now + @default_ttl : nil)
+        end
 
         # Store the value
         @data[key] = {

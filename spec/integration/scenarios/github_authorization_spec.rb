@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe "GitHub Authorization" do
   before(:all) do
@@ -106,22 +106,22 @@ RSpec.describe "GitHub Authorization" do
 
   describe "GitHub scenario" do
     # Define users
-    let(:alice) { { type: 'user', id: 'alice' } }
-    let(:bob) { { type: 'user', id: 'bob' } }
-    let(:charlie) { { type: 'user', id: 'charlie' } }
-    let(:diana) { { type: 'user', id: 'diana' } }
+    let(:alice) { {type: "user", id: "alice"} }
+    let(:bob) { {type: "user", id: "bob"} }
+    let(:charlie) { {type: "user", id: "charlie"} }
+    let(:diana) { {type: "user", id: "diana"} }
 
     # Define organizations
-    let(:acme_org) { { type: 'organization', id: 'acme' } }
+    let(:acme_org) { {type: "organization", id: "acme"} }
 
     # Define teams
-    let(:engineering_team) { { type: 'team', id: 'engineering' } }
-    let(:devops_team) { { type: 'team', id: 'devops' } }
+    let(:engineering_team) { {type: "team", id: "engineering"} }
+    let(:devops_team) { {type: "team", id: "devops"} }
 
     # Define repositories
-    let(:personal_repo) { { type: 'repository', id: 'alice/personal' } }
-    let(:api_repo) { { type: 'repository', id: 'acme/api' } }
-    let(:docs_repo) { { type: 'repository', id: 'acme/docs' } }
+    let(:personal_repo) { {type: "repository", id: "alice/personal"} }
+    let(:api_repo) { {type: "repository", id: "acme/api"} }
+    let(:docs_repo) { {type: "repository", id: "acme/docs"} }
 
     before(:each) do
       # Set up the scenario
@@ -131,7 +131,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: acme_org[:type],
         object_id: acme_org[:id],
-        relation: 'admin',
+        relation: "admin",
         subject_type: alice[:type],
         subject_id: alice[:id]
       )
@@ -140,7 +140,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: acme_org[:type],
         object_id: acme_org[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: bob[:type],
         subject_id: bob[:id]
       )
@@ -149,7 +149,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: acme_org[:type],
         object_id: acme_org[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: charlie[:type],
         subject_id: charlie[:id]
       )
@@ -159,7 +159,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: engineering_team[:type],
         object_id: engineering_team[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: bob[:type],
         subject_id: bob[:id]
       )
@@ -168,7 +168,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: engineering_team[:type],
         object_id: engineering_team[:id],
-        relation: 'maintainer',
+        relation: "maintainer",
         subject_type: charlie[:type],
         subject_id: charlie[:id]
       )
@@ -177,7 +177,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: devops_team[:type],
         object_id: devops_team[:id],
-        relation: 'member',
+        relation: "member",
         subject_type: charlie[:type],
         subject_id: charlie[:id]
       )
@@ -186,7 +186,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: engineering_team[:type],
         object_id: engineering_team[:id],
-        relation: 'organization',
+        relation: "organization",
         subject_type: acme_org[:type],
         subject_id: acme_org[:id]
       )
@@ -194,7 +194,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: devops_team[:type],
         object_id: devops_team[:id],
-        relation: 'organization',
+        relation: "organization",
         subject_type: acme_org[:type],
         subject_id: acme_org[:id]
       )
@@ -204,7 +204,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: personal_repo[:type],
         object_id: personal_repo[:id],
-        relation: 'owner_user',
+        relation: "owner_user",
         subject_type: alice[:type],
         subject_id: alice[:id]
       )
@@ -213,7 +213,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: api_repo[:type],
         object_id: api_repo[:id],
-        relation: 'owner_org',
+        relation: "owner_org",
         subject_type: acme_org[:type],
         subject_id: acme_org[:id]
       )
@@ -221,7 +221,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: docs_repo[:type],
         object_id: docs_repo[:id],
-        relation: 'owner_org',
+        relation: "owner_org",
         subject_type: acme_org[:type],
         subject_id: acme_org[:id]
       )
@@ -231,7 +231,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: api_repo[:type],
         object_id: api_repo[:id],
-        relation: 'writer_team',
+        relation: "writer_team",
         subject_type: engineering_team[:type],
         subject_id: engineering_team[:id]
       )
@@ -240,7 +240,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: api_repo[:type],
         object_id: api_repo[:id],
-        relation: 'admin_team',
+        relation: "admin_team",
         subject_type: devops_team[:type],
         subject_id: devops_team[:id]
       )
@@ -249,7 +249,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: docs_repo[:type],
         object_id: docs_repo[:id],
-        relation: 'reader_team',
+        relation: "reader_team",
         subject_type: engineering_team[:type],
         subject_id: engineering_team[:id]
       )
@@ -259,7 +259,7 @@ RSpec.describe "GitHub Authorization" do
       Granity.create_relation(
         object_type: personal_repo[:type],
         object_id: personal_repo[:id],
-        relation: 'collaborator',
+        relation: "collaborator",
         subject_type: diana[:type],
         subject_id: diana[:id]
       )
@@ -271,7 +271,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: alice[:type],
             subject_id: alice[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: personal_repo[:type],
             resource_id: personal_repo[:id]
           )
@@ -283,7 +283,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: diana[:type],
             subject_id: diana[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: personal_repo[:type],
             resource_id: personal_repo[:id]
           )
@@ -295,7 +295,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: diana[:type],
             subject_id: diana[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: personal_repo[:type],
             resource_id: personal_repo[:id]
           )
@@ -307,7 +307,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: bob[:type],
             subject_id: bob[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: personal_repo[:type],
             resource_id: personal_repo[:id]
           )
@@ -321,7 +321,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: alice[:type],
             subject_id: alice[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: api_repo[:type],
             resource_id: api_repo[:id]
           )
@@ -333,7 +333,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: bob[:type],
             subject_id: bob[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: api_repo[:type],
             resource_id: api_repo[:id]
           )
@@ -345,7 +345,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: charlie[:type],
             subject_id: charlie[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: api_repo[:type],
             resource_id: api_repo[:id]
           )
@@ -357,7 +357,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: diana[:type],
             subject_id: diana[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: api_repo[:type],
             resource_id: api_repo[:id]
           )
@@ -372,7 +372,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: bob[:type],
             subject_id: bob[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: docs_repo[:type],
             resource_id: docs_repo[:id]
           )
@@ -383,7 +383,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: bob[:type],
             subject_id: bob[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: docs_repo[:type],
             resource_id: docs_repo[:id]
           )
@@ -397,7 +397,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: charlie[:type],
             subject_id: charlie[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: docs_repo[:type],
             resource_id: docs_repo[:id]
           )
@@ -408,7 +408,7 @@ RSpec.describe "GitHub Authorization" do
           Granity.check_permission(
             subject_type: charlie[:type],
             subject_id: charlie[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: docs_repo[:type],
             resource_id: docs_repo[:id]
           )

@@ -51,7 +51,7 @@ module Granity
         return deps unless permission_def
 
         # Track visited permissions to prevent cycles
-        visited = Set.new([ "#{resource_type}:#{permission}" ])
+        visited = Set.new(["#{resource_type}:#{permission}"])
 
         # Add all relations that this permission depends on
         relations = extract_relations_from_permission(permission_def, [], visited)

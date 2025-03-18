@@ -11,15 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[8.0].define(version: 2025_03_17_000000) do
-  create_table "granity_examples", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description"
-    t.boolean "active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_granity_examples_on_name"
-  end
-
   create_table "granity_relation_tuples", force: :cascade do |t|
     t.string "object_type", null: false
     t.string "object_id", null: false

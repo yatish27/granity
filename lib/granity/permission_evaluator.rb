@@ -76,17 +76,15 @@ module Granity
               )
                 return true
               end
-            else
+            elsif check_relation(
+              subject_type: subject_type,
+              subject_id: subject_id,
+              relation: rule.relation,
+              object_type: resource_type,
+              object_id: resource_id
+            )
               # Direct relation check
-              if check_relation(
-                subject_type: subject_type,
-                subject_id: subject_id,
-                relation: rule.relation,
-                object_type: resource_type,
-                object_id: resource_id
-              )
-                return true
-              end
+              return true
             end
           when Granity::Rules::Permission
             # Check referenced permission, handling "from" case
@@ -103,23 +101,21 @@ module Granity
               )
                 return true
               end
-            else
+            elsif evaluate(
+              subject_type: subject_type,
+              subject_id: subject_id,
+              permission: rule.permission,
+              resource_type: resource_type,
+              resource_id: resource_id
+            )
               # Direct permission check on the same resource
-              if evaluate(
-                subject_type: subject_type,
-                subject_id: subject_id,
-                permission: rule.permission,
-                resource_type: resource_type,
-                resource_id: resource_id
-              )
-                return true
-              end
+              return true
             end
           when Granity::Rules::Any
             # Check if any of the subrules match
             if rule.rules.any? do |subrule|
               evaluate_rules(
-                rules: [ subrule ],
+                rules: [subrule],
                 subject_type: subject_type,
                 subject_id: subject_id,
                 resource_type: resource_type,
@@ -133,7 +129,7 @@ module Granity
             # Check if all of the subrules match
             if rule.rules.all? do |subrule|
               evaluate_rules(
-                rules: [ subrule ],
+                rules: [subrule],
                 subject_type: subject_type,
                 subject_id: subject_id,
                 resource_type: resource_type,
@@ -226,7 +222,7 @@ module Granity
                 )
 
                 relations.each do |rel|
-                  subjects << { type: rel.subject_type, id: rel.subject_id }
+                  subjects << {type: rel.subject_type, id: rel.subject_id}
                 end
               end
             else
@@ -238,7 +234,7 @@ module Granity
               )
 
               tuples.each do |tuple|
-                subjects << { type: tuple.subject_type, id: tuple.subject_id }
+                subjects << {type: tuple.subject_type, id: tuple.subject_id}
               end
             end
           when Granity::Rules::Permission
@@ -276,7 +272,7 @@ module Granity
             # Recursively collect subjects for each subrule
             rule.rules.each do |subrule|
               subrule_subjects = collect_subjects_for_permission(
-                rules: [ subrule ],
+                rules: [subrule],
                 resource_type: resource_type,
                 resource_id: resource_id
               )

@@ -5,7 +5,8 @@ module Granity
         cache_key = "granity:permission:#{subject_type}:#{subject_id}:#{permission}:#{resource_type}:#{resource_id}"
 
         # Try fetching from cache first
-        if cached_result = cache.read(cache_key)
+        cached_result = cache.read(cache_key)
+        if cached_result
           trace("CACHE HIT: #{cache_key} -> #{cached_result}")
           return cached_result
         end
@@ -41,7 +42,8 @@ module Granity
         cache_key = "granity:subjects:#{permission}:#{resource_type}:#{resource_id}"
 
         # Try fetching from cache first
-        if cached_result = cache.read(cache_key)
+        cached_result = cache.read(cache_key)
+        if cached_result
           trace("CACHE HIT: #{cache_key}")
           return cached_result
         end
@@ -122,17 +124,10 @@ module Granity
       def cache
         @cache ||= begin
           config = Granity.configuration
-
-          if config.cache_provider
-            # Use the configured cache adapter (e.g., Rails.cache)
-            config.cache_provider
-          else
-            # Use our in-memory cache implementation as a fallback
-            Granity::InMemoryCache.new(
-              max_size: config.max_cache_size,
-              ttl: config.cache_ttl
-            )
-          end
+          config.cache_provider || Granity::InMemoryCache.new(
+            max_size: config.max_cache_size,
+            ttl: config.cache_ttl
+          )
         end
       end
 
@@ -144,7 +139,7 @@ module Granity
         # For now, we take a conservative approach and invalidate any cache entry
         # that might depend on this relation being changed
         dependency_key = "granity:relation:#{object_type}:#{object_id}:#{relation}"
-        cache.invalidate_dependencies([ dependency_key ])
+        cache.invalidate_dependencies([dependency_key])
 
         trace("CACHE INVALIDATE for dependency: #{dependency_key}")
       end

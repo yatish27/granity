@@ -1,8 +1,8 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Granity::Schema do
-  describe '.define' do
-    it 'creates resource types with relations and permissions' do
+  describe ".define" do
+    it "creates resource types with relations and permissions" do
       schema = Granity::Schema.define do
         resource_type :user do
           # Empty resource type
@@ -50,7 +50,7 @@ RSpec.describe Granity::Schema do
       expect(edit_permission.rules[0].relation).to eq(:owner)
     end
 
-    it 'creates complex permission rules with any/all blocks' do
+    it "creates complex permission rules with any/all blocks" do
       schema = Granity::Schema.define do
         resource_type :document do
           relation :owner, type: :user
@@ -91,7 +91,7 @@ RSpec.describe Granity::Schema do
       expect(all_rule.rules[1]).to be_a(Granity::Rules::Relation)
     end
 
-    it 'creates permissions that include other permissions' do
+    it "creates permissions that include other permissions" do
       schema = Granity::Schema.define do
         resource_type :document do
           relation :owner, type: :user
@@ -120,7 +120,7 @@ RSpec.describe Granity::Schema do
       expect(manage_permission.rules[1].relation).to eq(:owner)
     end
 
-    it 'creates relations with from clauses' do
+    it "creates relations with from clauses" do
       schema = Granity::Schema.define do
         resource_type :document do
           relation :organization, type: :organization
@@ -150,10 +150,10 @@ RSpec.describe Granity::Schema do
     end
   end
 
-  describe '.current' do
-    it 'returns the last defined schema' do
+  describe ".current" do
+    it "returns the last defined schema" do
       # Define a schema
-      schema1 = Granity::Schema.define do
+      Granity::Schema.define do
         resource_type :document do
           relation :owner, type: :user
         end

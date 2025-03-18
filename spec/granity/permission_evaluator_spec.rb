@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Granity::PermissionEvaluator do
-  describe '.evaluate' do
+  describe ".evaluate" do
     before(:all) do
       # Define schema for testing
       Granity.define do
@@ -44,71 +44,71 @@ RSpec.describe Granity::PermissionEvaluator do
       Granity::RelationTuple.delete_all
     end
 
-    context 'simple relations' do
-      let(:doc_id) { '123' }
-      let(:user_id) { '456' }
+    context "simple relations" do
+      let(:doc_id) { "123" }
+      let(:user_id) { "456" }
 
-      it 'should return true when relation exists' do
+      it "should return true when relation exists" do
         # Create owner relation
         Granity::RelationTuple.create!(
-          object_type: 'document',
+          object_type: "document",
           object_id: doc_id,
-          relation: 'owner',
-          subject_type: 'user',
+          relation: "owner",
+          subject_type: "user",
           subject_id: user_id
         )
 
         # Check permission
         result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'view',
-          resource_type: 'document',
+          permission: "view",
+          resource_type: "document",
           resource_id: doc_id
         )
 
         expect(result).to be true
       end
 
-      it 'should return false when relation does not exist' do
+      it "should return false when relation does not exist" do
         # No relations created
 
         result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'view',
-          resource_type: 'document',
+          permission: "view",
+          resource_type: "document",
           resource_id: doc_id
         )
 
         expect(result).to be false
       end
 
-      it 'should handle different permissions based on relation' do
+      it "should handle different permissions based on relation" do
         # Create viewer relation
         Granity::RelationTuple.create!(
-          object_type: 'document',
+          object_type: "document",
           object_id: doc_id,
-          relation: 'viewer',
-          subject_type: 'user',
+          relation: "viewer",
+          subject_type: "user",
           subject_id: user_id
         )
 
         # Should have view permission
         view_result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'view',
-          resource_type: 'document',
+          permission: "view",
+          resource_type: "document",
           resource_id: doc_id
         )
 
         # Should not have edit permission
         edit_result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'edit',
-          resource_type: 'document',
+          permission: "edit",
+          resource_type: "document",
           resource_id: doc_id
         )
 
@@ -117,36 +117,36 @@ RSpec.describe Granity::PermissionEvaluator do
       end
     end
 
-    context 'relation traversal (from clauses)' do
-      let(:doc_id) { '123' }
-      let(:org_id) { '789' }
-      let(:user_id) { '456' }
+    context "relation traversal (from clauses)" do
+      let(:doc_id) { "123" }
+      let(:org_id) { "789" }
+      let(:user_id) { "456" }
 
-      it 'should handle relation traversal' do
+      it "should handle relation traversal" do
         # Create organization relation to document
         Granity::RelationTuple.create!(
-          object_type: 'document',
+          object_type: "document",
           object_id: doc_id,
-          relation: 'organization',
-          subject_type: 'organization',
+          relation: "organization",
+          subject_type: "organization",
           subject_id: org_id
         )
 
         # Create member relation to organization
         Granity::RelationTuple.create!(
-          object_type: 'organization',
+          object_type: "organization",
           object_id: org_id,
-          relation: 'member',
-          subject_type: 'user',
+          relation: "member",
+          subject_type: "user",
           subject_id: user_id
         )
 
         # Check permission
         result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'view',
-          resource_type: 'document',
+          permission: "view",
+          resource_type: "document",
           resource_id: doc_id
         )
 
@@ -154,13 +154,13 @@ RSpec.describe Granity::PermissionEvaluator do
         expect(result).to be true
       end
 
-      it 'should return false when traversal chain is broken' do
+      it "should return false when traversal chain is broken" do
         # Create organization relation to document only
         Granity::RelationTuple.create!(
-          object_type: 'document',
+          object_type: "document",
           object_id: doc_id,
-          relation: 'organization',
-          subject_type: 'organization',
+          relation: "organization",
+          subject_type: "organization",
           subject_id: org_id
         )
 
@@ -168,10 +168,10 @@ RSpec.describe Granity::PermissionEvaluator do
 
         # Check permission
         result = described_class.evaluate(
-          subject_type: 'user',
+          subject_type: "user",
           subject_id: user_id,
-          permission: 'view',
-          resource_type: 'document',
+          permission: "view",
+          resource_type: "document",
           resource_id: doc_id
         )
 
@@ -181,7 +181,7 @@ RSpec.describe Granity::PermissionEvaluator do
     end
   end
 
-  describe '.find_subjects' do
+  describe ".find_subjects" do
     before(:all) do
       # Define schema for testing
       Granity.define do
@@ -204,51 +204,51 @@ RSpec.describe Granity::PermissionEvaluator do
       Granity::RelationTuple.delete_all
     end
 
-    it 'should return all subjects with a permission' do
-      doc_id = '123'
-      user1_id = '456'
-      user2_id = '789'
+    it "should return all subjects with a permission" do
+      doc_id = "123"
+      user1_id = "456"
+      user2_id = "789"
 
       # Create relations
       Granity::RelationTuple.create!(
-        object_type: 'document',
+        object_type: "document",
         object_id: doc_id,
-        relation: 'owner',
-        subject_type: 'user',
+        relation: "owner",
+        subject_type: "user",
         subject_id: user1_id
       )
 
       Granity::RelationTuple.create!(
-        object_type: 'document',
+        object_type: "document",
         object_id: doc_id,
-        relation: 'viewer',
-        subject_type: 'user',
+        relation: "viewer",
+        subject_type: "user",
         subject_id: user2_id
       )
 
       # Find subjects with view permission
       subjects = described_class.find_subjects(
-        resource_type: 'document',
+        resource_type: "document",
         resource_id: doc_id,
-        permission: 'view'
+        permission: "view"
       )
 
       # Should find both users
       expect(subjects.size).to eq(2)
-      expect(subjects).to include({ type: 'user', id: user1_id })
-      expect(subjects).to include({ type: 'user', id: user2_id })
+      expect(subjects).to include({type: "user", id: user1_id})
+      expect(subjects).to include({type: "user", id: user2_id})
     end
 
-    it 'should return empty array when no subjects have permission' do
-      doc_id = '123'
+    it "should return empty array when no subjects have permission" do
+      doc_id = "123"
 
       # No relations created
 
       # Find subjects with view permission
       subjects = described_class.find_subjects(
-        resource_type: 'document',
+        resource_type: "document",
         resource_id: doc_id,
-        permission: 'view'
+        permission: "view"
       )
 
       # Should return empty array

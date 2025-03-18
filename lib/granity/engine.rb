@@ -32,7 +32,7 @@ module Granity
         cache_key = "subjects:#{permission}:#{resource_type}:#{resource_id}"
 
         # Dependencies for invalidation
-        deps = [ "resource:#{resource_type}:#{resource_id}" ]
+        deps = ["resource:#{resource_type}:#{resource_id}"]
         schema_deps = dependency_analyzer.analyze_permission(resource_type, permission)
         all_deps = deps + schema_deps
 

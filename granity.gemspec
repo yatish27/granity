@@ -1,15 +1,15 @@
 require_relative "lib/granity/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "granity"
-  spec.version     = Granity::VERSION
-  spec.authors     = [ "Yatish Mehta" ]
-  spec.email       = [ "yatish27@users.noreply.github.com" ]
-  spec.homepage    = "https://github.com/yatish27/granity"
-  spec.summary     = "Fine-grained authorization for Ruby on Rails"
+  spec.name = "granity"
+  spec.version = Granity::VERSION
+  spec.authors = ["Yatish Mehta"]
+  spec.email = ["yatish27@users.noreply.github.com"]
+  spec.homepage = "https://github.com/yatish27/granity"
+  spec.summary = "Fine-grained authorization for Ruby on Rails"
   spec.description = "Granity is a flexible, caching-friendly authorization engine that provides fine-grained access control for Ruby on Rails applications"
-  spec.license     = "MIT"
-  spec.required_ruby_version = '>= 3.1'
+  spec.license = "MIT"
+  spec.required_ruby_version = ">= 3.1"
 
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/yatish27/granity"
@@ -18,8 +18,6 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.required_ruby_version = ">= 2.6.0"
-
   spec.add_dependency "rails", ">= 7.1"
   spec.add_dependency "activerecord", ">= 7.1"
 
@@ -27,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "database_cleaner-active_record"
+  spec.add_development_dependency "standard"
 end

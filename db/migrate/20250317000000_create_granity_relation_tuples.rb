@@ -10,11 +10,11 @@ class CreateGranityRelationTuples < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :granity_relation_tuples, [ :object_type, :object_id, :relation ],
-              name: 'index_granity_tuples_on_object'
-    add_index :granity_relation_tuples, [ :subject_type, :subject_id ],
-              name: 'index_granity_tuples_on_subject'
-    add_index :granity_relation_tuples, [ :object_type, :object_id, :relation, :subject_type, :subject_id ],
-              unique: true, name: 'index_granity_tuples_unique'
+    add_index :granity_relation_tuples, [:object_type, :object_id, :relation],
+      name: "index_granity_tuples_on_object"
+    add_index :granity_relation_tuples, [:subject_type, :subject_id],
+      name: "index_granity_tuples_on_subject"
+    add_index :granity_relation_tuples, [:object_type, :object_id, :relation, :subject_type, :subject_id],
+      unique: true, name: "index_granity_tuples_unique"
   end
 end

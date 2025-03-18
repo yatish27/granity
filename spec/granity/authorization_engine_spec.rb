@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Granity::AuthorizationEngine do
   before(:all) do
@@ -70,22 +70,22 @@ RSpec.describe Granity::AuthorizationEngine do
     Granity::AuthorizationEngine.reset_cache
   end
 
-  describe '.check_permission' do
-    let(:user_alice) { { type: 'user', id: 'alice' } }
-    let(:user_bob) { { type: 'user', id: 'bob' } }
-    let(:user_charlie) { { type: 'user', id: 'charlie' } }
+  describe ".check_permission" do
+    let(:user_alice) { {type: "user", id: "alice"} }
+    let(:user_bob) { {type: "user", id: "bob"} }
+    let(:user_charlie) { {type: "user", id: "charlie"} }
 
-    let(:org_acme) { { type: 'organization', id: 'acme' } }
-    let(:team_engineering) { { type: 'team', id: 'engineering' } }
-    let(:repo_api) { { type: 'repository', id: 'api' } }
+    let(:org_acme) { {type: "organization", id: "acme"} }
+    let(:team_engineering) { {type: "team", id: "engineering"} }
+    let(:repo_api) { {type: "repository", id: "api"} }
 
-    context 'direct relation permissions' do
-      it 'grants permission when subject has direct relation to resource' do
+    context "direct relation permissions" do
+      it "grants permission when subject has direct relation to resource" do
         # Make Alice the owner of the API repo
         Granity.create_relation(
           object_type: repo_api[:type],
           object_id: repo_api[:id],
-          relation: 'owner',
+          relation: "owner",
           subject_type: user_alice[:type],
           subject_id: user_alice[:id]
         )
@@ -95,7 +95,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_alice[:type],
             subject_id: user_alice[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -106,7 +106,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_alice[:type],
             subject_id: user_alice[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -117,14 +117,14 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_alice[:type],
             subject_id: user_alice[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
         ).to be true
       end
 
-      it 'denies permission when subject has no relation to resource' do
+      it "denies permission when subject has no relation to resource" do
         # Bob has no relations to the API repo
 
         # Bob should not have read permission
@@ -132,19 +132,19 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_bob[:type],
             subject_id: user_bob[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
         ).to be false
       end
 
-      it 'grants specific permissions based on relation' do
+      it "grants specific permissions based on relation" do
         # Make Bob a collaborator on the API repo
         Granity.create_relation(
           object_type: repo_api[:type],
           object_id: repo_api[:id],
-          relation: 'collaborator',
+          relation: "collaborator",
           subject_type: user_bob[:type],
           subject_id: user_bob[:id]
         )
@@ -154,7 +154,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_bob[:type],
             subject_id: user_bob[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -165,7 +165,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_bob[:type],
             subject_id: user_bob[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -176,7 +176,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_bob[:type],
             subject_id: user_bob[:id],
-            permission: 'admin',
+            permission: "admin",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -184,13 +184,13 @@ RSpec.describe Granity::AuthorizationEngine do
       end
     end
 
-    context 'indirect relation permissions' do
-      it 'grants permission through organization membership' do
+    context "indirect relation permissions" do
+      it "grants permission through organization membership" do
         # Setup organization and repository relationship
         Granity.create_relation(
           object_type: repo_api[:type],
           object_id: repo_api[:id],
-          relation: 'organization',
+          relation: "organization",
           subject_type: org_acme[:type],
           subject_id: org_acme[:id]
         )
@@ -199,7 +199,7 @@ RSpec.describe Granity::AuthorizationEngine do
         Granity.create_relation(
           object_type: org_acme[:type],
           object_id: org_acme[:id],
-          relation: 'member',
+          relation: "member",
           subject_type: user_charlie[:type],
           subject_id: user_charlie[:id]
         )
@@ -209,7 +209,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_charlie[:type],
             subject_id: user_charlie[:id],
-            permission: 'read',
+            permission: "read",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -220,7 +220,7 @@ RSpec.describe Granity::AuthorizationEngine do
           Granity.check_permission(
             subject_type: user_charlie[:type],
             subject_id: user_charlie[:id],
-            permission: 'write',
+            permission: "write",
             resource_type: repo_api[:type],
             resource_id: repo_api[:id]
           )
@@ -228,13 +228,13 @@ RSpec.describe Granity::AuthorizationEngine do
       end
     end
 
-    context 'caching behavior' do
-      it 'caches permission check results' do
+    context "caching behavior" do
+      it "caches permission check results" do
         # Create relations
         Granity.create_relation(
           object_type: repo_api[:type],
           object_id: repo_api[:id],
-          relation: 'owner',
+          relation: "owner",
           subject_type: user_alice[:type],
           subject_id: user_alice[:id]
         )
@@ -246,7 +246,7 @@ RSpec.describe Granity::AuthorizationEngine do
         result1 = Granity.check_permission(
           subject_type: user_alice[:type],
           subject_id: user_alice[:id],
-          permission: 'read',
+          permission: "read",
           resource_type: repo_api[:type],
           resource_id: repo_api[:id]
         )
@@ -255,7 +255,7 @@ RSpec.describe Granity::AuthorizationEngine do
         result2 = Granity.check_permission(
           subject_type: user_alice[:type],
           subject_id: user_alice[:id],
-          permission: 'read',
+          permission: "read",
           resource_type: repo_api[:type],
           resource_id: repo_api[:id]
         )
@@ -268,12 +268,12 @@ RSpec.describe Granity::AuthorizationEngine do
         expect(Granity::PermissionEvaluator).to have_received(:evaluate).once
       end
 
-      it 'invalidates cache when relations change' do
+      it "invalidates cache when relations change" do
         # Check permission before any relations (should be false)
         initial_result = Granity.check_permission(
           subject_type: user_alice[:type],
           subject_id: user_alice[:id],
-          permission: 'read',
+          permission: "read",
           resource_type: repo_api[:type],
           resource_id: repo_api[:id]
         )
@@ -282,7 +282,7 @@ RSpec.describe Granity::AuthorizationEngine do
         Granity.create_relation(
           object_type: repo_api[:type],
           object_id: repo_api[:id],
-          relation: 'owner',
+          relation: "owner",
           subject_type: user_alice[:type],
           subject_id: user_alice[:id]
         )
@@ -291,7 +291,7 @@ RSpec.describe Granity::AuthorizationEngine do
         after_relation_result = Granity.check_permission(
           subject_type: user_alice[:type],
           subject_id: user_alice[:id],
-          permission: 'read',
+          permission: "read",
           resource_type: repo_api[:type],
           resource_id: repo_api[:id]
         )
