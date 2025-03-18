@@ -12,18 +12,17 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.1"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/yatish27/granity"
   spec.metadata["documentation_uri"] = "https://github.com/yatish27/granity/blob/main/README.md"
   spec.metadata["changelog_uri"] = "https://github.com/yatish27/granity/blob/main/CHANGELOG.md"
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", ">= 7.1"
-  spec.add_dependency "activerecord", ">= 7.1"
+  spec.add_dependency "rails", "~> 7.1"
+  spec.add_dependency "activerecord", "~> 7.1"
 
-  spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "factory_bot_rails"
-  spec.add_development_dependency "database_cleaner-active_record"
-  spec.add_development_dependency "standard"
+  spec.add_development_dependency "sqlite3", "~> 1.4"
+  spec.add_development_dependency "rspec-rails", "~> 6.0"
+  spec.add_development_dependency "factory_bot_rails", "~> 6.2"
+  spec.add_development_dependency "database_cleaner-active_record", "~> 2.0"
+  spec.add_development_dependency "standard", "~> 1.3"
 end
