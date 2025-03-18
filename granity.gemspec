@@ -17,12 +17,12 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 7.1"
-  spec.add_dependency "activerecord", "~> 7.1"
+  rails_version = ">= 7.1"
+  spec.add_dependency "activerecord", rails_version
+  spec.add_dependency "railties", rails_version
 
-  spec.add_development_dependency "sqlite3", "~> 1.4"
-  spec.add_development_dependency "rspec-rails", "~> 6.0"
-  spec.add_development_dependency "factory_bot_rails", "~> 6.2"
-  spec.add_development_dependency "database_cleaner-active_record", "~> 2.0"
-  spec.add_development_dependency "standard", "~> 1.3"
+  spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "factory_bot_rails"
+  spec.add_development_dependency "database_cleaner-active_record"
 end

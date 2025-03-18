@@ -19,8 +19,8 @@ $ bundle install
 Run the migrations:
 
 ```bash
-$ rails granity:install:migrations
-$ rails db:migrate
+rails granity:install:migrations
+rails db:migrate
 ```
 
 ## Configuration

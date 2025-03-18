@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eu
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+bundle
+
+echo "Creating databases..."
+
+rails db:reset
