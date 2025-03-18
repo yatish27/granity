@@ -1,0 +1,10 @@
+Description:
+    The granity:install generator creates the necessary migration file for
+    the Granity authorization engine and adds a default initializer.
+
+Example:
+    bin/rails generate granity:install
+
+    This will create:
+        db/migrate/TIMESTAMP_create_granity_tables.rb
+        config/initializers/granity.rb 
