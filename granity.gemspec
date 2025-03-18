@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency "database_cleaner-active_record"
+  spec.add_development_dependency "rubocop"
 end
