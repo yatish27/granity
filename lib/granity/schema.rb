@@ -37,8 +37,6 @@ module Granity
           end
         end
       end
-
-      # More validations could be added here
     end
   end
 
