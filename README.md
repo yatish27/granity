@@ -216,7 +216,7 @@ end
 Follow paths through related resources:
 
 ```ruby
-include_relation :member from :team
+include_relation :member, from: :team
 ```
 
 ## License
